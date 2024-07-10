@@ -52,7 +52,8 @@
         const initialDebt = 34893293988266;
         const newDebt = 34893294501475;
         const incrementPerSecond = (newDebt - initialDebt) / 15;
-        let currentDebt = initialDebt;
+        let currentDebt = parseFloat(localStorage.getItem('currentDebt')) || initialDebt;
+        const startDebt = currentDebt;
         let increaseSinceConnected = 0;
 
         function formatDebt(debt) {
@@ -63,10 +64,12 @@
             const randomFactor = 1 + (Math.random() * 0.2 - 0.1); // Random factor between 0.9 and 1.1
             const increment = incrementPerSecond * randomFactor;
             currentDebt += increment;
-            increaseSinceConnected += increment;
+            increaseSinceConnected = currentDebt - startDebt;
 
             document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
             document.getElementById('totalIncrease').textContent = 'Total Increase Since Connected: ' + formatDebt(increaseSinceConnected);
+
+            localStorage.setItem('currentDebt', currentDebt); // Save the updated debt to localStorage
         }
 
         document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
