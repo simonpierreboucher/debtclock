@@ -39,13 +39,17 @@
         .total-increase {
             background-color: #5bc0de;
         }
+        .increase-since-connected {
+            background-color: #5cb85c;
+        }
     </style>
 </head>
 <body>
     <div class="debt-clock">
         <h1>UK National Debt Clock</h1>
         <div class="box total-debt" id="totalDebt">Total Debt: $0</div>
-        <div class="box total-increase" id="totalIncrease">Total Increase Since Noon: $0</div>
+        <div class="box total-increase" id="totalIncrease">Total Increase Since 10 July 2024 Noon: $0</div>
+        <div class="box increase-since-connected" id="increaseSinceConnected">Increase Since Connected: $0</div>
     </div>
 
     <script>
@@ -55,6 +59,7 @@
 
         // Set start date and time to 10th July 2024 at noon
         const startDate = new Date('2024-07-10T12:00:00Z');
+        const connectionTime = new Date().getTime();
 
         function formatDebt(debt) {
             return '$' + debt.toLocaleString('en-US', { maximumFractionDigits: 0 });
@@ -66,12 +71,20 @@
             return initialDebt + incrementPerSecond * elapsedTimeInSeconds;
         }
 
+        function calculateIncreaseSinceConnected() {
+            const now = new Date().getTime();
+            const elapsedTimeSinceConnected = (now - connectionTime) / 1000;
+            return incrementPerSecond * elapsedTimeSinceConnected;
+        }
+
         function updateDebt() {
             const currentDebt = calculateCurrentDebt();
             const increaseSinceNoon = currentDebt - initialDebt;
+            const increaseSinceConnected = calculateIncreaseSinceConnected();
 
             document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
-            document.getElementById('totalIncrease').textContent = 'Total Increase Since Noon: ' + formatDebt(increaseSinceNoon);
+            document.getElementById('totalIncrease').textContent = 'Total Increase Since 10 July 2024 Noon: ' + formatDebt(increaseSinceNoon);
+            document.getElementById('increaseSinceConnected').textContent = 'Increase Since Connected: ' + formatDebt(increaseSinceConnected);
         }
 
         updateDebt();
