@@ -45,34 +45,36 @@
     <div class="debt-clock">
         <h1>US National Debt Clock</h1>
         <div class="box total-debt" id="totalDebt">Total Debt: $0</div>
-        <div class="box total-increase" id="totalIncrease">Total Increase Since Connected: $0</div>
+        <div class="box total-increase" id="totalIncrease">Total Increase Since Noon: $0</div>
     </div>
 
     <script>
         const initialDebt = 34893293988266;
         const newDebt = 34893294501475;
         const incrementPerSecond = (newDebt - initialDebt) / 15;
-        let currentDebt = parseFloat(localStorage.getItem('currentDebt')) || initialDebt;
-        const startDebt = currentDebt;
-        let increaseSinceConnected = 0;
+
+        // Set start date and time to 10th July 2024 at noon
+        const startDate = new Date('2024-07-10T12:00:00Z');
 
         function formatDebt(debt) {
             return '$' + debt.toLocaleString('en-US', { maximumFractionDigits: 0 });
         }
 
-        function updateDebt() {
-            const randomFactor = 1 + (Math.random() * 0.2 - 0.1); // Random factor between 0.9 and 1.1
-            const increment = incrementPerSecond * randomFactor;
-            currentDebt += increment;
-            increaseSinceConnected = currentDebt - startDebt;
-
-            document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
-            document.getElementById('totalIncrease').textContent = 'Total Increase Since Connected: ' + formatDebt(increaseSinceConnected);
-
-            localStorage.setItem('currentDebt', currentDebt); // Save the updated debt to localStorage
+        function calculateCurrentDebt() {
+            const now = new Date();
+            const elapsedTimeInSeconds = (now - startDate) / 1000;
+            return initialDebt + incrementPerSecond * elapsedTimeInSeconds;
         }
 
-        document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
+        function updateDebt() {
+            const currentDebt = calculateCurrentDebt();
+            const increaseSinceNoon = currentDebt - initialDebt;
+
+            document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
+            document.getElementById('totalIncrease').textContent = 'Total Increase Since Noon: ' + formatDebt(increaseSinceNoon);
+        }
+
+        updateDebt();
         setInterval(updateDebt, 1000);
     </script>
 </body>
