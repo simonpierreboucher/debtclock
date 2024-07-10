@@ -39,13 +39,17 @@
         .total-increase {
             background-color: #5bc0de;
         }
+        .increase-since-connected {
+            background-color: #5cb85c;
+        }
     </style>
 </head>
 <body>
     <div class="debt-clock">
         <h1>Global Debt Clock</h1>
         <div class="box total-debt" id="totalDebt">Total Debt: $0</div>
-        <div class="box total-increase" id="totalIncrease">Total Increase Since Noon: $0</div>
+        <div class="box total-increase" id="totalIncrease">Total Increase Since 10 July 2024 Noon: $0</div>
+        <div class="box increase-since-connected" id="increaseSinceConnected">Increase Since Connected: $0</div>
     </div>
 
     <script>
@@ -65,6 +69,8 @@
         ];
 
         const startDate = new Date('2024-07-10T12:00:00Z');
+        const connectionTime = new Date().getTime();
+
         let totalInitialDebt = 0;
         let totalNewDebt = 0;
 
@@ -85,12 +91,20 @@
             return totalInitialDebt + incrementPerSecond * elapsedTimeInSeconds;
         }
 
+        function calculateIncreaseSinceConnected() {
+            const now = new Date().getTime();
+            const elapsedTimeSinceConnected = (now - connectionTime) / 1000;
+            return incrementPerSecond * elapsedTimeSinceConnected;
+        }
+
         function updateDebt() {
             const currentDebt = calculateCurrentDebt();
             const increaseSinceNoon = currentDebt - totalInitialDebt;
+            const increaseSinceConnected = calculateIncreaseSinceConnected();
 
             document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
-            document.getElementById('totalIncrease').textContent = 'Total Increase Since Noon: ' + formatDebt(increaseSinceNoon);
+            document.getElementById('totalIncrease').textContent = 'Total Increase Since 10 July 2024 Noon: ' + formatDebt(increaseSinceNoon);
+            document.getElementById('increaseSinceConnected').textContent = 'Increase Since Connected: ' + formatDebt(increaseSinceConnected);
         }
 
         updateDebt();
