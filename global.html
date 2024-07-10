@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Debt Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .debt-clock {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .debt-clock h1 {
+            margin-bottom: 1em;
+            font-size: 2em;
+        }
+        .box {
+            margin: 10px 0;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.5em;
+            color: #fff;
+        }
+        .total-debt {
+            background-color: #d9534f;
+        }
+        .total-increase {
+            background-color: #5bc0de;
+        }
+    </style>
+</head>
+<body>
+    <div class="debt-clock">
+        <h1>Global Debt Clock</h1>
+        <div class="box total-debt" id="totalDebt">Total Debt: $0</div>
+        <div class="box total-increase" id="totalIncrease">Total Increase Since Noon: $0</div>
+    </div>
+
+    <script>
+        const countries = [
+            { name: 'USA', initialDebt: 34893293988266, newDebt: 34893294501475 },
+            { name: 'China', initialDebt: 14523926522050, newDebt: 14523926892372 },
+            { name: 'Japan', initialDebt: 13524515711002, newDebt: 13524516055841 },
+            { name: 'Germany', initialDebt: 3868014973405, newDebt: 3868015059280 },
+            { name: 'UK', initialDebt: 3798016062169, newDebt: 3798016159008 },
+            { name: 'India', initialDebt: 3735637864865, newDebt: 3735637960113 },
+            { name: 'France', initialDebt: 3615777954816, newDebt: 3615778047009 },
+            { name: 'Italy', initialDebt: 2109622883300, newDebt: 2109622937090 },
+            { name: 'Brazil', initialDebt: 2109622883300, newDebt: 2109622937090 },
+            { name: 'Canada', initialDebt: 2304065595960, newDebt: 2304065654707 },
+            { name: 'Australia', initialDebt: 1208654252634, newDebt: 1208654283452 },
+            { name: 'Korea', initialDebt: 1067870118465, newDebt: 1067870145693 }
+        ];
+
+        const startDate = new Date('2024-07-10T12:00:00Z');
+        let totalInitialDebt = 0;
+        let totalNewDebt = 0;
+
+        countries.forEach(country => {
+            totalInitialDebt += country.initialDebt;
+            totalNewDebt += country.newDebt;
+        });
+
+        const incrementPerSecond = (totalNewDebt - totalInitialDebt) / 15;
+
+        function formatDebt(debt) {
+            return '$' + debt.toLocaleString('en-US', { maximumFractionDigits: 0 });
+        }
+
+        function calculateCurrentDebt() {
+            const now = new Date();
+            const elapsedTimeInSeconds = (now - startDate) / 1000;
+            return totalInitialDebt + incrementPerSecond * elapsedTimeInSeconds;
+        }
+
+        function updateDebt() {
+            const currentDebt = calculateCurrentDebt();
+            const increaseSinceNoon = currentDebt - totalInitialDebt;
+
+            document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
+            document.getElementById('totalIncrease').textContent = 'Total Increase Since Noon: ' + formatDebt(increaseSinceNoon);
+        }
+
+        updateDebt();
+        setInterval(updateDebt, 1000);
+    </script>
+</body>
+</html>
