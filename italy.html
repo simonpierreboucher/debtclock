@@ -7,45 +7,34 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            margin: 0;
+            text-align: center;
+            background-color: #f4f4f4;
         }
         .debt-clock {
-            text-align: center;
+            margin: 50px auto;
             background: #fff;
             padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
         }
-        .debt-clock h1 {
-            margin-bottom: 1em;
+        .debt-amount, .increase-amount {
             font-size: 2em;
+            color: red;
+            margin: 20px 0;
         }
-        .box {
-            margin: 10px 0;
-            padding: 20px;
-            border-radius: 8px;
-            font-size: 1.5em;
-            color: #fff;
-        }
-        .total-debt {
-            background-color: #d9534f;
-        }
-        .total-increase {
-            background-color: #5bc0de;
+        .increase-amount {
+            font-size: 1.2em;
+            color: green;
         }
     </style>
 </head>
 <body>
     <div class="debt-clock">
-        <h1>Italy National Debt Clock</h1>
-        <div class="box total-debt" id="totalDebt">Total Debt: $0</div>
-        <div class="box total-increase" id="totalIncrease">Increase Since Connected: $0</div>
+        <h1>Italy National Debt</h1>
+        <div class="debt-amount" id="debt-amount">$0.00</div>
+        <div class="increase-amount" id="increase-amount">Debt increased since you connected: $0.00</div>
     </div>
 
     <script>
@@ -77,8 +66,8 @@
             const currentDebt = calculateCurrentDebt();
             const increaseSinceConnected = calculateIncreaseSinceConnected();
 
-            document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
-            document.getElementById('totalIncrease').textContent = 'Increase Since Connected: ' + formatDebt(increaseSinceConnected);
+            document.getElementById('debt-amount').textContent = formatDebt(currentDebt);
+            document.getElementById('increase-amount').textContent = 'Debt increased since you connected: ' + formatDebt(increaseSinceConnected);
         }
 
         updateDebt();
