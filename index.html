@@ -41,13 +41,23 @@
             text-decoration: none;
             font-size: 1.2em;
             color: #fff;
-            background-color: #007bff;
             padding: 15px 20px;
             border-radius: 8px;
             transition: background-color 0.3s;
         }
         .country-box:hover {
-            background-color: #0056b3;
+            background-color: #333;
+        }
+        .country-box:nth-child(odd) {
+            background-color: #007bff;
+        }
+        .country-box:nth-child(even) {
+            background-color: #28a745;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #555;
         }
     </style>
 </head>
@@ -75,6 +85,7 @@
             <li><a class="country-box" href="https://simonpierreboucher.github.io/debtclock/mexico.html">Mexico</a></li>
             <li><a class="country-box" href="https://simonpierreboucher.github.io/debtclock/global.html">Global</a></li>
         </ul>
+        <div class="footer">Réalisé par Simon-Pierre Boucher, Université Laval</div>
     </div>
 </body>
 </html>
