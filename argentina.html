@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argentina Debt Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .debt-clock {
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        .debt-amount, .increase-amount {
+            font-size: 2em;
+            color: red;
+            margin: 20px 0;
+        }
+        .increase-amount {
+            font-size: 1.2em;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="debt-clock">
+        <h1>Argentina National Debt</h1>
+        <div class="debt-amount" id="debt-amount">$0.00</div>
+        <div class="increase-amount" id="increase-amount">Debt increased since you connected: $0.00</div>
+    </div>
+
+    <script>
+        const initialDebt = 612600778212;
+        const newDebt = 612600793832;
+        const incrementPerSecond = (newDebt - initialDebt) / 15;
+
+        // Set start date and time to 10th July 2024 at noon
+        const startDate = new Date('2024-07-10T12:00:00Z');
+        const connectionTime = new Date().getTime();
+
+        function formatDebt(debt) {
+            return '$' + debt.toLocaleString('en-US', { maximumFractionDigits: 0 });
+        }
+
+        function calculateCurrentDebt() {
+            const now = new Date();
+            const elapsedTimeInSeconds = (now - startDate) / 1000;
+            return initialDebt + incrementPerSecond * elapsedTimeInSeconds;
+        }
+
+        function calculateIncreaseSinceConnected() {
+            const now = new Date().getTime();
+            const elapsedTimeSinceConnected = (now - connectionTime) / 1000;
+            return incrementPerSecond * elapsedTimeSinceConnected;
+        }
+
+        function updateDebt() {
+            const currentDebt = calculateCurrentDebt();
+            const increaseSinceConnected = calculateIncreaseSinceConnected();
+
+            document.getElementById('debt-amount').textContent = formatDebt(currentDebt);
+            document.getElementById('increase-amount').textContent = 'Debt increased since you connected: ' + formatDebt(increaseSinceConnected);
+        }
+
+        updateDebt();
+        setInterval(updateDebt, 1000);
+    </script>
+</body>
+</html>
