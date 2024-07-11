@@ -39,16 +39,13 @@
         .total-increase {
             background-color: #5bc0de;
         }
-        .increase-since-connected {
-            background-color: #5cb85c;
-        }
     </style>
 </head>
 <body>
     <div class="debt-clock">
         <h1>France National Debt Clock</h1>
         <div class="box total-debt" id="totalDebt">Total Debt: $0</div>
-        <div class="box increase-since-connected" id="increaseSinceConnected">Increase Since Connected: $0</div>
+        <div class="box total-increase" id="totalIncrease">Increase Since Connected: $0</div>
     </div>
 
     <script>
@@ -78,12 +75,10 @@
 
         function updateDebt() {
             const currentDebt = calculateCurrentDebt();
-            const increaseSinceNoon = currentDebt - initialDebt;
             const increaseSinceConnected = calculateIncreaseSinceConnected();
 
             document.getElementById('totalDebt').textContent = 'Total Debt: ' + formatDebt(currentDebt);
-            document.getElementById('totalIncrease').textContent = 'Total Increase Since 10 July 2024 Noon: ' + formatDebt(increaseSinceNoon);
-            document.getElementById('increaseSinceConnected').textContent = 'Increase Since Connected: ' + formatDebt(increaseSinceConnected);
+            document.getElementById('totalIncrease').textContent = 'Increase Since Connected: ' + formatDebt(increaseSinceConnected);
         }
 
         updateDebt();
